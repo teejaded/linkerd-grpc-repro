@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: grpc-client
+  name: grpc-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grpc-client
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: grpc-client
+      annotations:
+        config.linkerd.io/proxy-log-level: trace
+    spec:
+      containers:
+      - image: teejaded/grpc-keepalive:latest
+        name: grpc-client
+        imagePullPolicy: Always
+        command:
+          - /client
+          - --addr=grpc-server:50052
+          - --idle-threads=20
+        env:
+        - name: GRPC_GO_LOG_VERBOSITY_LEVEL
+          value: '99'
+        - name: GRPC_GO_LOG_SEVERITY_LEVEL
+          value: info
+        - name: GODEBUG
+          value: http2debug=2

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: grpc-server
+  name: grpc-server
+spec:
+  ports:
+  - name: grpc
+    port: 50052
+    protocol: TCP
+    targetPort: 50052
+  selector:
+    app: grpc-server
+  type: ClusterIP
