@@ -1,6 +1,7 @@
 FROM golang:1.24 as builder
 
 ENV GOPROXY=https://proxy.golang.org
+ENV GOCACHE=/root/.cache/go-build
 
 WORKDIR /app
 
